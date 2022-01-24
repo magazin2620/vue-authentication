@@ -1,18 +1,31 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Welcome to the App!</h1>
+    <template v-if="!loggedIn">
+      <div>
+        To use the app, you'll need to
+        <router-link to="authenticate" @click.native="isNew(false)">
+          Login
+        </router-link>
+        or
+        <router-link to="authenticate" @click.native="isNew(true)">
+          Register
+        </router-link>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import { authComputed } from "../vuex/helpers.js";
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  methods: {
+    isNew(isNewUser) {
+      this.$store.dispatch("isNewUser", !isNewUser);
+    },
+  },
+  computed: {
+    ...authComputed,
   },
 };
 </script>
